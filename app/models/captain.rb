@@ -20,7 +20,7 @@ class Captain < ActiveRecord::Base
               INNER JOIN boat_classifications bc ON bc.boat_id = b.id
               INNER JOIN classifications c ON bc.classification_id = c.id
               WHERE c.name IN('Sailboat','Motorboat')")
-              .group(:name).having("COUNT(DISTINCT(cl.name)) > ?",1);
+              .group(:name).having("COUNT(DISTINCT(c.name)) > ?",1);
   end
 
   def self.non_sailors
