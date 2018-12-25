@@ -32,6 +32,6 @@ class Captain < ActiveRecord::Base
    ar = Boat.joins("INNER JOIN boat_classifications bc ON bc.boat_id = b.id
               INNER JOIN classifications c ON bc.classification_id = c.id
               WHERE c.name = 'Motorboat'").to_sql
-   binding.pry
+   
   end
 end
