@@ -16,16 +16,11 @@ class Captain < ActiveRecord::Base
   end
 
   def self.talented_seafarers
-    ar = joins("INNER JOIN boats b ON b.captain_id = captains.id
-           INNER JOIN boat_classifications bc ON bc.boat_id = b.id
-           INNER JOIN classifications c ON bc.classification_id = c.id
-           WHERE c.name = 'Motorboat'")
-#           INTERSECT
-#           SELECT COUNT(*) FROM captains
-#           INNER JOIN boats b ON b.captain_id = captains.id
-#                   INNER JOIN boat_classifications bc ON bc.boat_id = b.id
-#                   INNER JOIN classifications c ON bc.classification_id = c.id
-#                   WHERE c.name = 'Sailboat'")
+    select(:name).joins("INNER JOIN boats b ON captains.id = b.captain_id
+              INNER JOIN boat_classifications bc ON bc.boat_id = b.id
+              INNER JOIN classifications c ON bc.classification_id = c.id
+              WHERE c.name IN('Sailboat','Motorboat')")
+              .group(:name).having("COUNT(DISTINCT(cl.name)) > ?",1);
   end
 
   def self.non_sailors
